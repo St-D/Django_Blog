@@ -1,0 +1,83 @@
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+    <style>
+        .sidebar {background-image: url('{% static 'img/default-contact.jpg' %}')}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main class="container left-container">
+        <div class="row">
+            <section class="sidebar col-lg-5 col-12">
+                <div class="site-info">
+                    <div class="primary-info">
+                        <h1>LogIn</h1>
+                        <p>Login to this page</p>
+                    </div>
+                    <div class="secondary-info">
+                        <p><a class="btn btn-default" href="{% url 'password_reset' %}"><i class="fa fa-gavel"></i>I Lost My Password</a>
+                    </div>
+                </div>
+            </section>
+            <div class="col-lg-7 col-12 ml-auto main-content">
+
+                <div class="log-form-title">
+                    {% if form.errors %}
+                    <h3>Your username and password didn't match.<br> Please try again.</h3>
+                    {% else %}
+                    <h3>Please enter your username and password</h3>
+                    {% endif %}
+                </div>
+
+                <div>
+                {% if next %}
+                    {% if user.is_authenticated %}
+                    <h3>Your account doesn't have access to this page.<br> To proceed,
+                    please login with an account that has access.</h3>
+                    {% else %}
+                    <h3>Please login to see this page.</h3>
+                    {% endif %}
+                {% endif %}
+                </div>
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+{#                    <div class="form-group">#}
+{#                        {{ form.username.label_tag }}#}
+{#                        {{ form.username }}#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        {{ form.password.label_tag }}#}
+{#                        {{ form.password }}#}
+{#                    </div>#}
+                    <div class="form-group">
+                        <label for="id_username">User Name:</label>
+                        <input type="text" name="username" autofocus maxlength="254" required id="id_username" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_password">Password:</label>
+                        <input type="password" name="password" required id="id_password" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-default"  type="submit" value="login">
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </div>
+                </form>
+
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+            {% include "footer_small.html" %}
+
+            </div><!-- main content -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+
+{#    <script type="text/javascript">#}
+{#        /* === for customize django form fields === */#}
+{#        document.getElementById("id_username").classList.add("form-control");#}
+{#        document.getElementById("id_password").classList.add("form-control");#}
+{#    </script>#}
+
+{% endblock %}

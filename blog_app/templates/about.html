@@ -1,0 +1,40 @@
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+      <style>
+        .hero-image {background-image: url('{% static 'img/default-about.jpg' %}')}
+      </style>
+{% endblock %}
+
+{% block content %}
+    <header class="hero-image" role="banner" ></header>
+
+    <main class="container">
+        <div class="row">
+            <div class="col-12 single-content">
+                    <h1>{{ page_description }}</h1>
+
+                    <p class="subtitle"></p>
+                    <p>In this blog you can share your thoughts with friends and everyone who is interested
+                        in this topic.
+                    <p>Write your articles, comment on your friends articles.
+                    For all questions you can contact the site administration
+                    </p>
+                    <p class="subtitle">{{ mail_address }}</p>
+
+            </div><!-- main-content/col -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+
+{% endblock %}
+
+{% block footer %}
+    <footer class="single single-page without-readmore">
+        <div class="container">
+            <div class="col-sm-12">
+                <p>This community loves your content. Blog &copy; 2018 <a href="{% url 'index' %}">posts</a></p>
+            </div>
+        </div>
+    </footer>
+{% endblock %}

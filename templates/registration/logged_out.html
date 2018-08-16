@@ -1,0 +1,42 @@
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+    <style>
+        .sidebar {background-image: url('{% static 'img/article_012.jpg' %}')}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <main class="container left-container">
+        <div class="row">
+            <section class="sidebar col-lg-5 col-12">
+                <div class="site-info">
+                    <div class="primary-info">
+                        <h1>Logged out!</h1>
+                        <p>Click here to login again</p>
+                    </div>
+                    <div class="secondary-info">
+                        <p><a class="btn btn-default" href="{% url 'login' %}"><i class="fa fa-user"></i>Login</a>
+                    </div>
+                </div>
+            </section>
+            <div class="col-lg-7 col-12 ml-auto main-content">
+
+                <div class="log-form-title">
+                    <h3>Waiting for you again , friend ... </h3>
+                </div>
+
+
+            {% include "footer_small.html" %}
+
+            </div><!-- main content -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+
+    <script type="text/javascript">
+        /* === for customize django form fields === */
+        document.getElementById("id_email").classList.add("form-control");
+    </script>
+
+{% endblock %}

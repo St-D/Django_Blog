@@ -1,0 +1,9 @@
+#project files
+.idea
+
+# windows thumbnail cache
+Thumbs.db
+
+#other
+db.sqlite3
+i_think

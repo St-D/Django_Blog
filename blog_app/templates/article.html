@@ -1,0 +1,56 @@
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+      <style>
+        .hero-image {background-image: url('{% static img_background %}')}
+      </style>
+{% endblock %}
+
+{% block content %}
+    <header class="hero-image" role="banner"></header>
+    <main class="container">
+        <div class="row">
+            <div class="col-xs-12 single-content">
+                <p class="meta">
+                    <a class="" href="category.html">{{ article_by_id.profile.nick }}</a>
+                    <i class="link-spacer"></i>
+                    <i class="fa fa-bookmark"></i> {{ article_by_id.create|timesince }}
+                </p>
+                <h1>{{ article_by_id.theme|title }}</h1>
+                <p class="subtitle"></p>
+                <p>{{ article_by_id.content }}</p>
+                <p class="pullquote"></p>
+{#                <p>PAGE CONTENT</p>#}
+            </div><!-- main-content/col -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+{% endblock %}
+
+{% block footer %}
+    <footer class="single">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-2">
+                    <img src="{{MEDIA_URL}}{{ article_by_id.profile.avatar_image.url }}" class="user-icon " alt="user-image">
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="category-list">
+                        <p>Published <span>{{ article_by_id.create|date:"d M Y" }}</span></p>
+                        <p><a href="#">{{ article_by_id.profile.nick }}</a></p>
+                    </div>
+                </div><!-- end col -->
+                <div class="col-xs-12 col-md-4">
+                    <div class="social">
+                        <p>Share this article</p>
+                        <div class="social-links">
+                            <a class="social-icon" href="#" data-platform="twitter" data-message="Message about this post" data-url="http://ttt.com/post"><i class="fa fa-twitter"></i></a>
+                            <a class="social-icon" href="#" data-platform="facebook" data-message="Message about this post" data-url="http://ttt.com/post"><i class="fa fa-facebook-official"></i></a>
+                            <a class="social-icon" data-platform="mail"  href="mailto:{{ mail_address }}"><i class="fa fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end row -->
+        </div>
+    </footer>
+{% endblock %}

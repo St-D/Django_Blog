@@ -1,0 +1,70 @@
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+      <style>
+        .sidebar {background-image: url('{% static img_background %}')}
+      </style>
+{% endblock %}
+
+{% block content %}
+    <main class="container left-container">
+        <div class="row">
+
+            <section class="sidebar col-lg-5 col-12">
+                <div class="site-info">
+                    <div class="primary-info">
+                        <h1>{{ page_description }}</h1>
+                        <p>{{ about_this_page }}</p>
+
+                        <p>Content is king</p>
+                    </div>
+                    <div class="secondary-info">
+                        <p>
+{#                      <a class="btn btn-primary" href="#"><i class="fa fa-user-plus"></i>Join Our Newsletter</a>#}
+                        <a class="btn btn-primary">Button{{ login_in_btn }}</a>
+                        </p>
+                    </div>
+                </div>
+            </section><!-- end sidebar -->
+
+            <section class="col-lg-7 col-12 ml-auto main-content">
+
+                <div class="sub-nav">
+                    <a href="#" class="select-posts active">Posts</a>
+{#                  <a href="#" class="select-categories">Categories</a>#}
+                </div>
+
+                <div class="home-page-posts animated fadeIn ">
+                {% if ten_random_articles %}
+                    {%  for article in ten_random_articles %}
+                        <article class="post">
+                            <div class="post-preview col-10  no-gutter">
+                                <h2><a href="{{ article.article_url }}">{{ article.theme|title }}</a></h2>
+                                <p>{{ article.content|truncatewords:25}}</p>
+                                <p class="meta">
+                                    <a href="#">{{ article.profile.nick }}</a>
+                                    <i class="link-spacer"></i>
+                                    <i class="fa fa-bookmark"></i>
+                                    {{ article.create|timesince }}
+                                </p>
+                            </div>
+                            <div class=" col-2  no-gutter">
+                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <h2><br> ... no articles for render :( </h2>
+                {% endif %}
+                </div><!-- Home page posts -->
+
+            {% include "footer_small.html" %}
+
+            </section><!-- main content -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+{% endblock %}
+
+
+
