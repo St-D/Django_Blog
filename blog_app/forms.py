@@ -6,10 +6,17 @@ from django.contrib.auth.models import User
 
 class ArticleForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(ArticleForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = Article
-        # fields = ["content", "theme"]
-        exclude = [""]
+        fields = ["theme", "content"]
+        # fields = '__all__'
+        # exclude = [""]
+        widgets = {'user': forms.HiddenInput()}
 
 
 class RegisterForm(UserCreationForm):

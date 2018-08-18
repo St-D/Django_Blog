@@ -54,28 +54,29 @@
 {#                    </div>#}
 {#                </form>#}
 
-                {% if form.errors %}
-                    <p style="color: red;">Пожалуйста, исправьте ошибки.</p>
-                {% endif %}
+{#                {% if form.errors %}#}
+{#                    <p style="color: red;">Пожалуйста, исправьте ошибки.</p>#}
+{#                {% endif %}#}
+
                 <form method="post">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn-primary">publish article</button>
-                </form>
 
-{#                <form action="" method="post">#}
-{#        {% for field in form %}#}
-{#            <p>#}
-{#                <label>{{ field.label }}</label>#}
-{# #}
-{#                {{ field }}#}
-{# #}
-{#                {{ field.errors }}#}
-{#            </p>#}
-{#        {% endfor %}#}
-{#        <input type="submit" value="Отправить">#}
-{#         {% csrf_token %}#}
-{#    </form>#}
+                    {% for field in form %}
+                        <div class="form-group">
+                        <p>
+                        <label>{{ field.label }}</label><br>
+                        {{ field }}
+                        {{ field.errors }}
+                        </p>
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <input class="btn btn-default"  type="submit" value="publish article">
+{#                        <input type="hidden" name="next" value="{{ next }}" />#}
+{#                        <button type="submit" class="btn-primary">publish article</button>#}
+                    </div>
+                </form>
 
                 <p><a href="{% url 'all_my_articles' %}">My posts</a></p>
                 <p><a href="{% url 'my_favorites' %}">Posts my friends</a></p>

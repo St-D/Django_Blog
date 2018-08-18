@@ -87,15 +87,20 @@ def all_my_articles(request):
 
 @login_required
 def new_article(request):
+    """render form for create new article"""
+
+    # if request.user.is_authenticated():
+    #     username = request.user.username
+    #     print(username)
 
     if request.method == "POST":
         form = ArticleForm(request.POST)
         if form.is_valid():
-            form.cleaned_data.get('username')
-            print(form.cleaned_data)
-            # form.cleaned_data.get('profile') = 'rtrt'
-        form.save()
+            response = form.save(commit=False)
+            response.user = request.user
+            response.save()
 
+        return redirect('all_my_articles')
     else:
         form = ArticleForm()
     return render(request=request, template_name='new_article.html', context={'form': form})
