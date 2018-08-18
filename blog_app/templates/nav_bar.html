@@ -4,14 +4,14 @@
         <li><i class="fa fa-anchor"></i><a href="{% url 'about' %}">About</a></li>
         {% block nav_bar %}
             {% if user.is_authenticated %}
-                <li><i class="fa fa-star"></i><a href="favorites.html">Favorites</a></li>
-                <li><i class="fa fa-clipboard"></i><a href="post.html">My Posts</a></li>
-                <li><i class="fa fa-file-text-o"></i><a href="post.html">New Post</a></li>
+                <li><i class="fa fa-star"></i><a href="{% url 'my_favorites' %}">Favorites</a></li>
+                <li><i class="fa fa-clipboard"></i><a href="{% url 'all_my_articles' %}">My Posts</a></li>
+                <li><i class="fa fa-file-text-o"></i><a href="{% url 'new_article' %}">New Post</a></li>
                 <li><i class="fa fa-user-times"></i><a href="{% url 'logout' %}">Logout</a></li>
                 <li><i class="navbar-brand"></i><a href="">Hello, &nbsp;{{ user.get_username|title }}</a></li>
             {% else %}
                 <li><i class="fa fa-user"></i><a href="{% url 'login' %}">Login</a></li>
-                <li><i class="fa fa-user-plus"></i><a href="author.html">Registration</a></li>
+                <li><i class="fa fa-user-plus"></i><a href="{% url 'register' %}">Registration</a></li>
             {% endif %}
         {% endblock %}
     </ul>

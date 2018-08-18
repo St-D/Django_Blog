@@ -2,10 +2,14 @@
 
 from __future__ import unicode_literals
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Article(models.Model):
-    profile = models.ForeignKey('Profile', models.DO_NOTHING)
+    # profile = models.ForeignKey('Profile', models.DO_NOTHING)
+    user = models.ForeignKey(User, models.DO_NOTHING)
     content = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
     theme = models.CharField(max_length=255)
@@ -87,15 +91,16 @@ class Subscribe(models.Model):
 
 
 class Profile(models.Model):
-    nick = models.CharField(unique=True, max_length=30)
-    mail = models.EmailField(unique=True, max_length=45)
-    md5_password = models.CharField(max_length=255)
-    online_status = models.IntegerField(blank=True, null=True)
-    reg_date = models.DateField(auto_now_add=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # nick = models.CharField(unique=True, max_length=30)
+    # mail = models.EmailField(unique=True, max_length=45)
+    # md5_password = models.CharField(max_length=255)
+    # online_status = models.IntegerField(blank=True, null=True)
+    # reg_date = models.DateField(auto_now_add=True)
     avatar_image = models.ImageField(null=True, blank=True, upload_to='avatar_img')
 
     def __str__(self):
-        return self.nick
+        return self.user.username
 
     # ============================ calculated field ============================
     def admin_image(self):
@@ -107,3 +112,24 @@ class Profile(models.Model):
     class Meta:
         managed = False
         db_table = 'profile'
+
+
+# class Userprofile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     avatar_img = models.ImageField(null=True, blank=True, upload_to='avatar_img')
+#     # avatar_img = models.CharField(max_length=255, blank=True)
+#
+#     def __str__(self):
+#         return self.user.first_name
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'userprofile'
+
+    # ==========================================================================
+    # @receiver(post_save, sender=User)
+    # def create_user(sender, instance, created, **kwargs):
+    #     if created:
+    #         Userprofile.objects.create(user=instance)
+    #     instance.userprofile.save()
+    # ==========================================================================

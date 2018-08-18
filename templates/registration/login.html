@@ -27,7 +27,7 @@
                     {% if form.errors %}
                     <h3>Your username and password didn't match.<br> Please try again.</h3>
                     {% else %}
-                    <h3>Please enter your username and password</h3>
+                    <h3>Please enter your username and password:</h3>
                     {% endif %}
                 </div>
 
@@ -67,6 +67,7 @@
                 </form>
 
                 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                <p><a href="{% url 'register' %}">Not registered yet? Sign up</a></p>
 
             {% include "footer_small.html" %}
 

@@ -1,0 +1,95 @@
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{#{% block css %}{{block.super}}#}
+{#    <style>#}
+{#        .sidebar {background-image: url('{% static 'img/default-contact.jpg' %}')}#}
+{#    </style>#}
+{#{% endblock %}#}
+
+{% block content %}
+    <main class="container left-container">
+        <div class="row">
+            <section class="sidebar col-lg-5 col-12">
+                <div class="site-info">
+                    <div class="primary-info">
+                        <h1>New post</h1>
+                        <p>Create your new article,&nbsp;{{ user.get_username|title }} </p>
+                    </div>
+                    <div class="secondary-info">
+                        <p><a class="btn btn-default" href="{% url 'logout' %}"><i class="fa fa-gavel"></i>Logout</a>
+                    </div>
+                </div>
+            </section>
+            <div class="col-lg-7 col-12 ml-auto main-content">
+
+                <div class="log-form-title">
+                    <h3>Your friends are waiting for your new article</h3>
+                </div>
+
+                <div>
+                </div>
+
+{#                <form method="post" action="{% url 'login' %}">#}
+{#                    {% csrf_token %}#}
+{#                    <div class="form-group">#}
+{#                        {{ form.username.label_tag }}#}
+{#                        {{ form.username }}#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        {{ form.password.label_tag }}#}
+{#                        {{ form.password }}#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="id_username">User Name:</label>#}
+{#                        <input type="text" name="username" autofocus maxlength="254" required id="id_username" class="form-control"/>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="id_password">Password:</label>#}
+{#                        <input type="password" name="password" required id="id_password" class="form-control"/>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <input class="btn btn-default"  type="submit" value="login">#}
+{#                        <input type="hidden" name="next" value="{{ next }}" />#}
+{#                    </div>#}
+{#                </form>#}
+
+                {% if form.errors %}
+                    <p style="color: red;">Пожалуйста, исправьте ошибки.</p>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn-primary">publish article</button>
+                </form>
+
+{#                <form action="" method="post">#}
+{#        {% for field in form %}#}
+{#            <p>#}
+{#                <label>{{ field.label }}</label>#}
+{# #}
+{#                {{ field }}#}
+{# #}
+{#                {{ field.errors }}#}
+{#            </p>#}
+{#        {% endfor %}#}
+{#        <input type="submit" value="Отправить">#}
+{#         {% csrf_token %}#}
+{#    </form>#}
+
+                <p><a href="{% url 'all_my_articles' %}">My posts</a></p>
+                <p><a href="{% url 'my_favorites' %}">Posts my friends</a></p>
+
+            {% include "footer_small.html" %}
+
+            </div><!-- main content -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+
+{#    <script type="text/javascript">#}
+{#        /* === for customize django form fields === */#}
+{#        document.getElementById("id_username").classList.add("form-control");#}
+{#        document.getElementById("id_password").classList.add("form-control");#}
+{#    </script>#}
+
+{% endblock %}

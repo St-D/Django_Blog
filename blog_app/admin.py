@@ -20,8 +20,8 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Profile._meta.fields]
     list_display.append('admin_image')
 
-    list_filter = ['nick']
-    search_fields = ['nick']
+    list_filter = ['user']
+    search_fields = ['user']
 
     class Meta:
         model = Profile
