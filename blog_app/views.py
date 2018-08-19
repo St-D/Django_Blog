@@ -12,26 +12,12 @@ from .forms import ArticleForm, RegisterForm
 from os import path, listdir
 import random
 
-from .models import Article, Profile, Comment, User
-# from django.views.generic import ListView, DetailView
+from .models import Article, Profile, Comment, User, Subscribe
 
 
-# def index(request):
-#     form = ArticleForm(request.POST or None)
-#     page_title = 'Main Page'
-#     user = User.objects.get(id=1)
-#     ava = user.avatar_image
-#     print(user.avatar_image)
-#
-#     if request.method == 'POST' and form.is_valid():
-#         # debug:
-#         # print(request.POST)
-#         # print(form.cleaned_data)
-#         # print(form.cleaned_data['user'])
-#         form.save()
-#         # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-#
-#     return render(request=request, template_name='index.html', context=locals())
+# return HttpResponseRedirect(request.META.get('HTTP_REFERER')) //back page
+# request.resolver_match.url_name // current url
+
 
 def random_background():
     """random background from static/img"""
@@ -45,8 +31,6 @@ def random_background():
 def index(request):
 
     page_title = 'Blog Main Page'
-    page_description = 'Blog'
-    about_this_page = 'share your ideas with friends and like-minded people'
     img_background = random_background()
     ten_random_articles = Article.objects.order_by('?')[:10]
 
@@ -54,9 +38,10 @@ def index(request):
 
 
 def about(request):
+    """render about page"""
 
     page_title = 'About Page'
-    page_description = 'About Our Blog'
+    # page_description = 'About Our Blog'
     mail_address = 'mail_to_admin@mail.com'
 
     return render(request=request, template_name='about.html', context=locals())
@@ -73,14 +58,67 @@ def article(request, id):
     return render(request=request, template_name='article.html', context=locals())
 
 
+def articles_by_user(request, user_pk):
+    """sorts and render all articles of the same user"""
+
+    query_user = User.objects.get(pk=user_pk)
+    page_title = 'All articles by ' + str(query_user.username)
+    img_background = random_background()
+
+    article_by_user = Article.objects.all().filter(user=user_pk)
+
+    return render(request=request, template_name='articles_by_user.html', context=locals())
+
+
+@transaction.atomic
+@login_required
+def add_to_favorites(request, user_pk):
+    """add user to MyFavorites list. Return info-message on Page. """
+
+    current_loged_user = request.user.id
+    return_path = request.META.get('HTTP_REFERER', '/')
+
+    if not Subscribe.objects.filter(master_user=int(user_pk), slave_user=int(current_loged_user)).exists():
+        if int(current_loged_user) != int(user_pk):
+            create_new_subscriber = Subscribe(
+                slave_user=User(id=int(current_loged_user)),
+                master_user=User(id=int(user_pk)))
+
+            create_new_subscriber.save()
+
+            messages.info(request, '    add to MyFavorites successfully !')
+
+            return redirect(return_path)
+        else:
+            messages.info(request, '    . . . why add yourself ?')
+
+            return redirect(return_path)
+    else:
+        messages.info(request, '    already added . . .')
+
+        return redirect(return_path)
+
+
 @login_required
 def my_favorites(request):
+    """"""
+    page_title = 'My friends'
+    img_background = random_background()
+
+    # for the current user only those -- to whom he is subscribed
+    subscribers_val_list = Subscribe.objects.filter(slave_user=request.user.id).values_list('master_user', flat=1)
+    favorites_user = User.objects.filter(pk__in=list(subscribers_val_list))
 
     return render(request=request, template_name='my_favorites.html', context=locals())
 
 
 @login_required
 def all_my_articles(request):
+    """render all articles of the current registered user"""
+
+    page_title = 'My articles'
+    img_background = random_background()
+    article_by_user = Article.objects.all().filter(user=request.user.id)
 
     return render(request=request, template_name='all_my_articles.html', context=locals())
 
@@ -88,6 +126,8 @@ def all_my_articles(request):
 @login_required
 def new_article(request):
     """render form for create new article"""
+
+    page_title = 'Create new article'
 
     # if request.user.is_authenticated():
     #     username = request.user.username
@@ -103,74 +143,30 @@ def new_article(request):
         return redirect('all_my_articles')
     else:
         form = ArticleForm()
-    return render(request=request, template_name='new_article.html', context={'form': form})
+    return render(request=request, template_name='new_article.html',
+                  context={'form': form,
+                           'page_title': page_title})
 
 
-# @login_required
 @transaction.atomic
 def register(request):
-    # =============================================================
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            print('^1', form.cleaned_data['avatar_img'])
-            form.save()
-            print('^2',  form.cleaned_data['avatar_img'])
+            print(form.cleaned_data)
+            user = form.save()
+            user.refresh_from_db()
+            user.profile.avatar_image = form.cleaned_data.get('avatar_image')
+            user.save()
 
             # login now:
             username = form.cleaned_data.get('username')
             my_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=my_password)
             login(request, user)
-
             return redirect('index')
+
     else:
         form = RegisterForm()
-    # =============================================================
-    return render(request, 'register.html', {
-        'form': form,
-        # 'user_form': user_form,
-        # 'profile_form': profile_form
-    })
-    # pass
-    # return render(request=request, template_name='register.html', context=locals())
-
-    # u = User.objects.get(username='johny')
-    # johny_avatar = u.userprofile.avatar
-    # =============================================================
-
-
-def for_debug(request):
-    role = False
-
-    page_title = 'XXXXXXX'
-    page_description = 'debug info'
-    return render(request=request, template_name='deb.html', context=locals())
-
-
-def rindex(request):
-    article_list = Article.objects.order_by('create')
-    # template = loader.get_template('index.html')
-    article_list = list(map(lambda x: x.content + '<hr>' + '<br>', article_list))
-    # return HttpResponse(article_list)
-    # context = RequestContext(request, {
-    #     'article_list': article_list,
-    # })
-    # return HttpResponse(template.render(context))
-
-    # return render(request=request, template_name='index.html',
-    #               context={'article_list': article_list})
-    return TemplateResponse(request, 'index.html', {'article_list': article_list})
-
-
-def detail(request, id):
-
-    return HttpResponse("You're voting on question %s." % id)
-
-
-# def about(request):
-#     page_title = "about"
-#     form = ArticleForm(request.POST or None)
-#
-#     return render(request, "about.html", locals())
-
+    return render(request=request, template_name='register.html',
+                  context={'form': form})

@@ -31,87 +31,26 @@
                     {% endif %}
                 </div>
 
-{#                <div>#}
-{#                {% if next %}#}
-{#                    {% if user.is_authenticated %}#}
-{#                    <h3>Your account doesn't have access to this page.<br> To proceed,#}
-{#                    please login with an account that has access.</h3>#}
-{#                    {% else %}#}
-{#                    <h3>Please login to see this page.</h3>#}
-{#                    {% endif %}#}
-{#                {% endif %}#}
-{#                </div>#}
-
-{#                <form method="post" action="{% url 'login' %}">#}
-{#                    {% csrf_token %}#}
-{#                    <div class="form-group">#}
-{#                        <label for="id_username">User Name:</label>#}
-{#                        <input type="text" name="username" autofocus maxlength="254" required id="id_username" class="form-control"/>#}
-{#                    </div>#}
-{#                    <div class="form-group">#}
-{#                        <label for="id_password">Password:</label>#}
-{#                        <input type="password" name="password" required id="id_password" class="form-control"/>#}
-{#                    </div>#}
-{#                    <div class="form-group">#}
-{#                        <input class="btn btn-default"  type="submit" value="login">#}
-{#                        <input type="hidden" name="next" value="{{ next }}" />#}
-{#                    </div>#}
-{#                </form>#}
-{##}
-
-{#                <h2>Регистрация</h2>#}
-{#                <form method="post">#}
-{#                {% csrf_token %}#}
-{#                {{ form.as_p }}#}
-{#                <button type="submit">Отправить</button>#}
-{#                </form>#}
-
-{#            <div class="container">#}
-{#                <h2>Регистрация</h2>#}
-{#                <form method="post">#}
-{#                {% csrf_token %}#}
-{#                {% for field in form %}#}
-{#                    <p>#}
-{#                    {{ field.label_tag }}<br>#}
-{#                    {{ field }}<br>#}
-{##}
-{#                    {% if field.help_text %}#}
-{#                        {{ field.help_text }}#}
-{#                    {% endif %}#}
-{##}
-{#                    {% for error in field.errors %}#}
-{#                        <h3>{{ error }}</h3>#}
-{#                    {% endfor %}#}
-{#                    </p>#}
-{#                {% endfor %}#}
-{##}
-{#                <button type="submit">Отправить</button>#}
-{#                </form>#}
-{#            </div>#}
 
             <div class="container">
-                <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-{#                {{ user_form.as_p }}#}
-{#                {{ profile_form.as_p }}#}
-                <button type="submit">Сохранить изменения</button>
+                <form method="post"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-default"  type="submit" value="Submit">
+                    </div>
                 </form>
             </div>
 
                 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
                 <p><a href="{% url 'login' %}">Already registered? Login</a></p>
 
-            {% include "footer_small.html" %}
+            {% include "include_html/footer_small.html" %}
 
             </div><!-- main content -->
         </div> <!--/row -->
     </main> <!-- /container -->
-
-{#    <script type="text/javascript">#}
-{#        /* === for customize django form fields === */#}
-{#        document.getElementById("id_username").classList.add("form-control");#}
-{#        document.getElementById("id_password").classList.add("form-control");#}
-{#    </script>#}
 
 {% endblock %}

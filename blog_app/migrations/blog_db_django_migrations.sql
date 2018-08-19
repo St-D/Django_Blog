@@ -1,0 +1,15 @@
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('contenttypes', '0001_initial', '2018-08-16 20:14:08.471010');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0001_initial', '2018-08-16 20:14:09.177012');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('admin', '0001_initial', '2018-08-16 20:14:09.378614');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('admin', '0002_logentry_remove_auto_add', '2018-08-16 20:14:09.394214');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('contenttypes', '0002_remove_content_type_name', '2018-08-16 20:14:09.519014');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0002_alter_permission_name_max_length', '2018-08-16 20:14:09.598014');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0003_alter_user_email_max_length', '2018-08-16 20:14:09.662414');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0004_alter_user_username_opts', '2018-08-16 20:14:09.678014');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0005_alter_user_last_login_null', '2018-08-16 20:14:09.740415');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0006_require_contenttypes_0002', '2018-08-16 20:14:09.756015');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0007_alter_validators_add_error_messages', '2018-08-16 20:14:09.771615');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0008_alter_user_username_max_length', '2018-08-16 20:14:09.834015');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('blog_app', '0001_initial', '2018-08-16 20:14:09.849615');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('sessions', '0001_initial', '2018-08-16 20:14:09.913015');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('blog_app', '0002_userprofile', '2018-08-16 23:18:51.956198');

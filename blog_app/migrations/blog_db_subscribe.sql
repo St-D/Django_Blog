@@ -1,0 +1,11 @@
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (4, 5);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (4, 6);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (4, 8);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (5, 8);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (5, 6);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (6, 5);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (6, 8);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (8, 4);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (8, 5);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (8, 6);
+INSERT INTO blog_db.subscribe (master_user, slave_user) VALUES (8, 9);

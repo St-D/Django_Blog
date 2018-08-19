@@ -14,15 +14,15 @@
             <section class="sidebar col-lg-5 col-12">
                 <div class="site-info">
                     <div class="primary-info">
-                        <h1>Blog</h1>
-                        <p>share your ideas with friends and like-minded people</p>
+                        <h1>Articles</h1>
+                        <p></p>
 
-                        <p>Content is king</p>
+                        <p>Here are all articles by {{ user.get_username|title }}</p>
                     </div>
                     <div class="secondary-info">
                         <p>
 {#                      <a class="btn btn-primary" href="#"><i class="fa fa-user-plus"></i>Join Our Newsletter</a>#}
-                        <a class="btn btn-primary" href="{% url 'new_article' %}">Create new Post</a>
+                        <a class="btn btn-primary" href="{% url 'add_to_favorites' user_pk=user_pk %}"><i class="fa fa-star"></i>Add to MyFavorites</a>
                         </p>
                     </div>
                 </div>
@@ -36,15 +36,15 @@
                 </div>
 
                 <div class="home-page-posts animated fadeIn ">
-                {% if ten_random_articles %}
-                    {%  for article in ten_random_articles %}
+                {% if article_by_user %}
+                    {%  for article in article_by_user %}
                         <article class="post">
                             <div class="post-preview col-10  no-gutter">
                                 <h2><a href="{{ article.article_url }}">{{ article.theme|title }}</a></h2>
                                 <p>{{ article.content|truncatewords:25}}</p>
                                 <p class="meta">
 {#                                    <a href="#">{{ article.profile.nick }}</a>#}
-                                    <a href="{% url 'articles_by_user' user_pk=article.user.id %}">{{ article.user.username }}</a>
+                                    <a href="#">{{ article.user.username }}</a>
                                     <i class="link-spacer"></i>
                                     <i class="fa fa-bookmark"></i>
                                     {{ article.create|timesince }}
@@ -52,17 +52,26 @@
                             </div>
                             <div class=" col-2  no-gutter">
 {#                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>#}
-                                <a href="{% url 'articles_by_user' user_pk=article.user.id %}" ><img src="{{MEDIA_URL}}{{ article.user.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
+                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.user.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
                             </div>
                         </article>
                     {% endfor %}
                 {% else %}
-                    <h2><br> ... no articles for render :( </h2>
+                    <h2><br> you don't have published articles yet </h2>
+                    <p><a href="{% url 'new_article' %}">Post new article</a></p>
                 {% endif %}
+
+{#                <p>{{ user_pk }}</p> user_id page #}
+
+                 <p><a href="{% url 'add_to_favorites' user_pk=user_pk %}"><i class="fa fa-star"></i>Add to MyFavorites</a></p>
+
+                {% include "include_html/info_messages.html" %}
+
+
+
                 </div><!-- Home page posts -->
 
             {% include "include_html/footer_small.html" %}
-
 
             </section><!-- main content -->
         </div> <!--/row -->

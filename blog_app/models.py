@@ -25,6 +25,7 @@ class Article(models.Model):
     @property
     def short_content(self):
         return self._get_short_content()
+    # ---------
 
     def _get_article_url(self):
         return "/article/%i/" % self.id
@@ -59,26 +60,26 @@ class Comment(models.Model):
 
 
 class Subscribe(models.Model):
-    master_user = models.ForeignKey('Profile', models.DO_NOTHING, db_column='master_user',
+    master_user = models.ForeignKey(User, models.DO_NOTHING, db_column='master_user',
                                     related_name='master_user')
-    slave_user = models.ForeignKey('Profile', models.DO_NOTHING, db_column='slave_user',
+    slave_user = models.ForeignKey(User, models.DO_NOTHING, db_column='slave_user',
                                    related_name='slave_user')
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     # ============================ calculated field ============================
     def _get_master_user(self):
         """Returns 'master' user nick """
-        return self.master_user.nick
+        return self.master_user.username
 
     @property
     def master_nick(self):
-        return self.slave_user.nick
+        return self._get_master_user
 
     def _get_slave_user(self):
         """Returns 'slave' user nick """
-        return self.slave_user.nick
+        return self.slave_user.username
 
     @property
     def slave_nick(self):
@@ -92,11 +93,6 @@ class Subscribe(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # nick = models.CharField(unique=True, max_length=30)
-    # mail = models.EmailField(unique=True, max_length=45)
-    # md5_password = models.CharField(max_length=255)
-    # online_status = models.IntegerField(blank=True, null=True)
-    # reg_date = models.DateField(auto_now_add=True)
     avatar_image = models.ImageField(null=True, blank=True, upload_to='avatar_img')
 
     def __str__(self):
@@ -113,23 +109,9 @@ class Profile(models.Model):
         managed = False
         db_table = 'profile'
 
-
-# class Userprofile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     avatar_img = models.ImageField(null=True, blank=True, upload_to='avatar_img')
-#     # avatar_img = models.CharField(max_length=255, blank=True)
-#
-#     def __str__(self):
-#         return self.user.first_name
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'userprofile'
-
-    # ==========================================================================
-    # @receiver(post_save, sender=User)
-    # def create_user(sender, instance, created, **kwargs):
-    #     if created:
-    #         Userprofile.objects.create(user=instance)
-    #     instance.userprofile.save()
+    @receiver(post_save, sender=User)
+    def create_user(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+        instance.profile.save()
     # ==========================================================================

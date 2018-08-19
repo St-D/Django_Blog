@@ -1,10 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h2>all_Articles</h2>
-</body>
-</html>
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+      <style>
+        .sidebar {background-image: url('{% static img_background %}')}
+      </style>
+{% endblock %}
+
+{% block content %}
+    <main class="container left-container">
+        <div class="row">
+
+            <section class="sidebar col-lg-5 col-12">
+                <div class="site-info">
+                    <div class="primary-info">
+                        <h1>All my Articles</h1>
+                        <p></p>
+
+                        <p>Here are all your articles, &nbsp;{{ user.get_username|title }}</p>
+                    </div>
+                    <div class="secondary-info">
+                        <p>
+{#                      <a class="btn btn-primary" href="#"><i class="fa fa-user-plus"></i>Join Our Newsletter</a>#}
+                        <a class="btn btn-primary" href="{% url 'new_article' %}">Create new Article</a>
+                        </p>
+                    </div>
+                </div>
+            </section><!-- end sidebar -->
+
+            <section class="col-lg-7 col-12 ml-auto main-content">
+
+                <div class="sub-nav">
+                    <a href="#" class="select-posts active">Posts</a>
+{#                  <a href="#" class="select-categories">Categories</a>#}
+                </div>
+
+                <div class="home-page-posts animated fadeIn ">
+                {% if article_by_user %}
+                    {%  for article in article_by_user %}
+                        <article class="post">
+                            <div class="post-preview col-10  no-gutter">
+                                <h2><a href="{{ article.article_url }}">{{ article.theme|title }}</a></h2>
+                                <p>{{ article.content|truncatewords:25}}</p>
+                                <p class="meta">
+{#                                    <a href="#">{{ article.profile.nick }}</a>#}
+                                    <a href="#">{{ article.user.username }}</a>
+                                    <i class="link-spacer"></i>
+                                    <i class="fa fa-bookmark"></i>
+                                    {{ article.create|timesince }}
+                                </p>
+                            </div>
+                            <div class=" col-2  no-gutter">
+{#                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>#}
+                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.user.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% else %}
+                    <h2><br> you don't have published articles yet </h2>
+                    <p><a href="{% url 'new_article' %}">Post new article</a></p>
+                {% endif %}
+                </div><!-- Home page posts -->
+
+            {% include "include_html/footer_small.html" %}
+
+            </section><!-- main content -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+{% endblock %}
+
+
+

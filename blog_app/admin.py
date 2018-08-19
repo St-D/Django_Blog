@@ -3,8 +3,9 @@ from django.contrib import admin
 from .models import Profile, Article, Comment, Subscribe
 
 
+@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["theme", "short_content", "create"]
+    list_display = ["theme", "short_content", "create", "user"]
     search_fields = ['content', 'theme']
     # list_display = [field.name for field in Article._meta.fields]
     # exclude = ['']
@@ -13,9 +14,10 @@ class ArticleAdmin(admin.ModelAdmin):
     class Meta:
         model = Article
 
-admin.site.register(Article, ArticleAdmin)
+# admin.site.register(Article, ArticleAdmin)
 
 
+@admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Profile._meta.fields]
     list_display.append('admin_image')
@@ -26,18 +28,16 @@ class ProfileAdmin(admin.ModelAdmin):
     class Meta:
         model = Profile
 
-admin.site.register(Profile, ProfileAdmin)
 
-
+@admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
     list_display = ['id', 'master_nick', 'slave_nick']
 
     class Meta:
         model = Subscribe
 
-admin.site.register(Subscribe, SubscribeAdmin)
 
-
+@admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Comment._meta.fields]
     search_fields = ['content']
@@ -45,4 +45,3 @@ class CommentAdmin(admin.ModelAdmin):
     class Meta:
         model = Comment
 
-admin.site.register(Comment, CommentAdmin)

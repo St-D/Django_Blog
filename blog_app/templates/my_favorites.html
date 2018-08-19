@@ -1,10 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h2>my_favorites</h2>
-</body>
-</html>
+{% extends 'blog_app/base.html' %}
+{% load staticfiles %}
+
+{% block css %}{{block.super}}
+      <style>
+        .sidebar {background-image: url('{% static img_background %}')}
+      </style>
+{% endblock %}
+
+{% block content %}
+    <main class="container left-container">
+        <div class="row">
+
+            <section class="sidebar col-lg-5 col-12">
+                <div class="site-info">
+                    <div class="primary-info">
+                        <h1>My Friends</h1>
+                        <p></p>
+
+                        <p>Here are all your friends, &nbsp;{{ user.get_username|title }}</p>
+                    </div>
+                    <div class="secondary-info">
+                        <p>
+{#                      <a class="btn btn-primary" href="#"><i class="fa fa-user-plus"></i>Join Our Newsletter</a>#}
+                        <a class="btn btn-primary" href="{% url 'new_article' %}">Create new Article</a>
+                        </p>
+                    </div>
+                </div>
+            </section><!-- end sidebar -->
+
+            <section class="col-lg-7 col-12 ml-auto main-content">
+
+                <div class="sub-nav">
+                    <a href="#" class="select-posts active">Posts</a>
+{#                  <a href="#" class="select-categories">Categories</a>#}
+                </div>
+
+                <div class="home-page-posts animated fadeIn ">
+                {% if favorites_user %}
+                    {%  for usr in favorites_user %}
+                        <article class="post">
+                            <div class="post-preview col-10  no-gutter">
+                                <h2><a href="{% url 'articles_by_user' user_pk=usr.id %}">{{ usr.username|title }}</a></h2>
+                                <p class="meta">
+                                    registered in the blog
+                                    <i class="link-spacer"></i>
+                                    <i class="fa fa-bookmark"></i>
+                                    {{ usr.date_joined|timesince }}
+                                    <i class="link-spacer"></i>
+                                    ago
+                                </p>
+                            </div>
+                            <div class=" col-2  no-gutter">
+{#                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>#}
+                                <a href="{% url 'articles_by_user' user_pk=usr.id %}" ><img src="{{MEDIA_URL}}{{ usr.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
+                            </div>
+                        </article>
+                    {% endfor %}
+
+                {% else %}
+                    <h2><br> you haven't added friends yet </h2>
+                    <p><a href="{% url 'index' %}">Show articles</a></p>
+                {% endif %}
+                </div><!-- Home page posts -->
+
+            {% include "include_html/footer_small.html" %}
+
+            </section><!-- main content -->
+        </div> <!--/row -->
+    </main> <!-- /container -->
+{% endblock %}
+
+
+
+

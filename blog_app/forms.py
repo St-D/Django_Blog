@@ -20,18 +20,14 @@ class ArticleForm(forms.ModelForm):
 
 
 class RegisterForm(UserCreationForm):
-    # avatar_img = forms.CharField(max_length=255)
-    avatar_img = forms.ImageField(required=False)
-    # class Meta(UserCreationForm.Meta):
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+    avatar_image = forms.ImageField(required=False)
+
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'avatar_img']
-
-    def save(self, commit=False):
-        user = super(RegisterForm, self).save()
-        user_profile = Userprofile(user=user, avatar_img=self.cleaned_data['avatar_img'])
-        user.save()
-        user.refresh_from_db()
-        user_profile.save()
-        # return user, user_profile
-
+        fields = ['username', 'email', 'password1', 'password2', 'avatar_image']

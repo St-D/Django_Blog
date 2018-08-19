@@ -1,0 +1,16 @@
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (1, '.... it''s very grandly, my friend!', '2018-08-06 10:29:05', 2, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (1, 'what about melody?', '2018-08-06 10:31:49', 4, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (1, 'perfectly!', '2018-08-06 10:31:49', 3, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (1, 'I heard your tune! I loved it!', '2018-08-06 10:31:49', 4, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (3, 'wonderfully song!', '2018-08-06 10:33:15', 1, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (3, 'nicely', '2018-08-06 10:33:15', 2, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (6, 'excellently', '2018-08-06 10:34:22', 3, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (6, 'superbly', '2018-08-06 10:34:22', 4, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (8, 'splendidly', '2018-08-06 10:36:03', 2, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (8, 'admirably', '2018-08-06 10:36:03', 4, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (8, 'quite well', '2018-08-06 10:36:03', 4, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (10, 'very finely, friend!', '2018-08-06 10:38:10', 2, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (10, 'clearly', '2018-08-06 10:38:10', 4, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (10, 'it''s a pretty song ', '2018-08-06 10:38:10', 3, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (14, 'very well )', '2018-08-06 10:54:45', 1, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (14, 'me too :)', '2018-08-06 10:54:45', 3, null);

@@ -1,0 +1,11 @@
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('admin', 'logentry');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('auth', 'group');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('auth', 'permission');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('auth', 'user');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('blog_app', 'article');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('blog_app', 'comment');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('blog_app', 'profile');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('blog_app', 'subscribe');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('blog_app', 'userprofile');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('contenttypes', 'contenttype');
+INSERT INTO blog_db.django_content_type (app_label, model) VALUES ('sessions', 'session');
