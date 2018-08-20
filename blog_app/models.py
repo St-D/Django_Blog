@@ -47,7 +47,7 @@ class Comment(models.Model):
     article = models.ForeignKey('Article', models.DO_NOTHING)
     content = models.TextField()
     create = models.DateTimeField(auto_now_add=True)
-    who_comment = models.ForeignKey('Profile', models.DO_NOTHING, db_column='who_comment')
+    who_comment = models.ForeignKey(User, models.DO_NOTHING, db_column='who_comment')
     # reply_to_comment_id = models.IntegerField(blank=True, null=True)
     reply_to_comment = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
 

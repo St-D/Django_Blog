@@ -1,7 +1,8 @@
-from .models import *
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from .models import Article
 
 
 class ArticleForm(forms.ModelForm):
@@ -26,7 +27,7 @@ class RegisterForm(UserCreationForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
-    avatar_image = forms.ImageField(required=False)
+    avatar_image = forms.ImageField(required=True)
 
     class Meta:
         model = User

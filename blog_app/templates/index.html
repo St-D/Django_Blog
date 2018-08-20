@@ -43,16 +43,20 @@
                                 <h2><a href="{{ article.article_url }}">{{ article.theme|title }}</a></h2>
                                 <p>{{ article.content|truncatewords:25}}</p>
                                 <p class="meta">
-{#                                    <a href="#">{{ article.profile.nick }}</a>#}
-                                    <a href="{% url 'articles_by_user' user_pk=article.user.id %}">{{ article.user.username }}</a>
+
+{#                                    NoReverseMatch if use {% url 'articles_by_user' user_pk=article.user.id %} #}
+{#                                    !!! maybe need define property to model !!! {{ article.user.id }} #}
+
+{#                                    <a href="{% url 'articles_by_user' user_pk=article.user.id %}">{{ article.user.username }}</a>#}
+                                    <a href="/articles_by_user/{{ article.user.id }}">{{ article.user.username }}</a>
                                     <i class="link-spacer"></i>
                                     <i class="fa fa-bookmark"></i>
                                     {{ article.create|timesince }}
                                 </p>
                             </div>
                             <div class=" col-2  no-gutter">
-{#                                <a href="#" ><img src="{{MEDIA_URL}}{{ article.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>#}
-                                <a href="{% url 'articles_by_user' user_pk=article.user.id %}" ><img src="{{MEDIA_URL}}{{ article.user.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
+{#                                <a href="{% url 'articles_by_user' user_pk=article.user.id %}" ><img src="{{MEDIA_URL}}{{ article.user.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>#}
+                                <a href="/articles_by_user/{{ article.user.id }}" ><img src="{{MEDIA_URL}}{{ article.user.profile.avatar_image.url }}" class="user-icon" alt="user-image"></a>
                             </div>
                         </article>
                     {% endfor %}
@@ -68,6 +72,7 @@
         </div> <!--/row -->
     </main> <!-- /container -->
 {% endblock %}
+{#hard-code some URL#}
 
 
 

@@ -22,7 +22,7 @@
                     <div class="secondary-info">
                         <p>
 {#                      <a class="btn btn-primary" href="#"><i class="fa fa-user-plus"></i>Join Our Newsletter</a>#}
-                        <a class="btn btn-primary" href="{% url 'add_to_favorites' user_pk=user_pk %}"><i class="fa fa-star"></i>Add to MyFavorites</a>
+                        <a class="btn btn-primary" href="{% url 'add_to_favorites' user_pk=int_key_from_url %}"><i class="fa fa-star"></i>Add to MyFavorites</a>
                         </p>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
                     <p><a href="{% url 'new_article' %}">Post new article</a></p>
                 {% endif %}
 
-{#                <p>{{ user_pk }}</p> user_id page #}
+{#                <p>{{ int_key_from_url }}</p> user_id page #}
 
-                 <p><a href="{% url 'add_to_favorites' user_pk=user_pk %}"><i class="fa fa-star"></i>Add to MyFavorites</a></p>
+                 <p><a href="{% url 'add_to_favorites' user_pk=int_key_from_url %}"><i class="fa fa-star"></i>Add to MyFavorites</a></p>
 
                 {% include "include_html/info_messages.html" %}
 

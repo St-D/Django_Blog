@@ -2,9 +2,10 @@
 {% load staticfiles %}
 
 {% block css %}{{block.super}}
-      <style>
+    <style>
         .hero-image {background-image: url('{% static img_background %}')}
-      </style>
+    </style>
+    <link href="{% static 'style/comment.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -24,6 +25,61 @@
 {#                <p>PAGE CONTENT</p>#}
             </div><!-- main-content/col -->
         </div> <!--/row -->
+
+    {% block comment %}
+    {% if comments %}
+        <div class="container bootstrap snippet">
+            <div class="row">
+		        <div class="col-md-12">
+		            <div class="blog-comment">
+				        <h3>Comments({{ count_comment }})</h3>
+                        <hr/>
+                        {% for com in comments %}
+				        <ul class="comments">
+				            <li class="clearfix">
+				                    <img src="{{MEDIA_URL}}{{ com.who_comment.profile.avatar_image.url }}" class="avatar" alt="">
+				                <div class="post-comments">
+				                    <p class="meta">{{ com.create | date:"d M Y" }}
+                                    <a href="/articles_by_user/{{ com.who_comment.id }}">{{ com.who_comment.username }}</a>
+                                        says :<i class="pull-right">
+                                    <a href="#"><small>Reply</small></a></i>
+                                    </p>
+
+				                    <p>
+				                    {{ com.content }}
+                                        {{ com.reply_to_comment }}
+				                    </p>
+				                </div>
+
+                                {% if com.reply_to_comment %}
+				                <ul class="comments">
+				                    <li class="clearfix">
+				                        <img src="{{ path_to_avatar }}" class="avatar" alt="">
+				                        <div class="post-comments">
+				                            <p class="meta">Dec 20, 2014
+                                            <a href="#">JohnDoe</a> says : <i class="pull-right">
+                                            <a href="#"><small>Reply</small></a></i>
+                                            </p>
+
+				                            <p>
+				                            {{ comment_to_comment }}
+				                            </p>
+				                        </div>
+				                    </li>
+				                </ul>
+                                {% endif %}
+				            </li>
+				        </ul>
+                        {% endfor %}
+			        </div>
+		        </div>
+	        </div>
+        </div>
+    {% endif %}
+
+    {% endblock %}
+
+
     </main> <!-- /container -->
 {% endblock %}
 
@@ -32,7 +88,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-md-2">
-                    <img src="{{MEDIA_URL}}{{ article_by_id.profile.avatar_image.url }}" class="user-icon " alt="user-image">
+                    <img src="{{MEDIA_URL}}{{ article_by_id.user.profile.avatar_image.url }}" class="user-icon " alt="user-image">
                 </div>
                 <div class="col-xs-12 col-md-6">
                     <div class="category-list">
@@ -54,3 +110,4 @@
         </div>
     </footer>
 {% endblock %}
+{#hard-code some URL#}

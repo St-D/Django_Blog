@@ -1,19 +1,20 @@
-from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from django.http import HttpResponse
-from django.template import RequestContext, loader
-from django.shortcuts import render, get_object_or_404, redirect
-from django.template.response import TemplateResponse
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-
-from .forms import ArticleForm, RegisterForm
+# from django.http import HttpResponse
+# from django.template import RequestContext, loader
+# from django.template.response import TemplateResponse
+# from django.contrib.auth.forms import UserCreationForm
 from os import path, listdir
 import random
 
-from .models import Article, Profile, Comment, User, Subscribe
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
+from .models import Article, Subscribe, Comment
+from django.contrib.auth.models import User
+
+from .forms import ArticleForm, RegisterForm
 
 # return HttpResponseRedirect(request.META.get('HTTP_REFERER')) //back page
 # request.resolver_match.url_name // current url
@@ -52,8 +53,11 @@ def article(request, id):
 
     article_by_id = get_object_or_404(Article.objects, pk=id)
     page_title = article_by_id.theme
-    mail_address = 'mail_to_admin@mail.com'
+    # mail_address = 'mail_to_admin@mail.com'
     img_background = random_background()
+
+    comments = Comment.objects.filter(article=id).order_by('create').filter(reply_to_comment__isnull=True)
+    count_comment = comments.count()
 
     return render(request=request, template_name='article.html', context=locals())
 
@@ -61,13 +65,20 @@ def article(request, id):
 def articles_by_user(request, user_pk):
     """sorts and render all articles of the same user"""
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~', user_pk)
+
     query_user = User.objects.get(pk=user_pk)
     page_title = 'All articles by ' + str(query_user.username)
     img_background = random_background()
 
     article_by_user = Article.objects.all().filter(user=user_pk)
 
-    return render(request=request, template_name='articles_by_user.html', context=locals())
+    # return render(request=request, template_name='articles_by_user.html', context=locals())
+    return render(request=request, template_name='articles_by_user.html',
+                  context={'page_title': page_title,
+                           'img_background': img_background,
+                           'article_by_user': article_by_user,
+                           'int_key_from_url': user_pk})
 
 
 @transaction.atomic
