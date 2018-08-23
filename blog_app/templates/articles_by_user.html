@@ -48,6 +48,16 @@
                                     <i class="link-spacer"></i>
                                     <i class="fa fa-bookmark"></i>
                                     {{ article.create|timesince }}
+                                    <i class="link-spacer"></i>
+                                    {% with article.count_comment as art_count%}
+                                        {% if art_count %}
+                                            <i class="fa fa-comments" aria-hidden="true"></i>
+                                            {{ art_count }} comments
+                                        {% else %}
+                                            <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                            no comments yet
+                                        {% endif %}
+                                    {% endwith %}
                                 </p>
                             </div>
                             <div class=" col-2  no-gutter">

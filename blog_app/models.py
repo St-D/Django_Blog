@@ -34,6 +34,14 @@ class Article(models.Model):
     @property
     def article_url(self):
         return self._get_article_url()
+    # ---------
+
+    def _get_count_comment(self):
+        return Comment.objects.filter(article=self.id).count()
+
+    @property
+    def count_comment(self):
+        return self._get_count_comment()
     # ==========================================================================
 
     class Meta:
@@ -46,13 +54,39 @@ class Article(models.Model):
 class Comment(models.Model):
     article = models.ForeignKey('Article', models.DO_NOTHING)
     content = models.TextField()
-    create = models.DateTimeField(auto_now_add=True)
+    create = models.DateTimeField(auto_now_add=True)  # default=timezone.now
     who_comment = models.ForeignKey(User, models.DO_NOTHING, db_column='who_comment')
     # reply_to_comment_id = models.IntegerField(blank=True, null=True)
     reply_to_comment = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return str(self.content)[:30] + ' . . .'
+
+    # ============================ calculated field ============================
+    def _get_is_comment(self):
+        if self.reply_to_comment is None \
+                or self.reply_to_comment == 0\
+                or self.reply_to_comment == '':
+            return True
+        else:
+            return False
+
+    @property
+    def is_comment(self):
+        """check comment (return True) or discussion (return False)"""
+        return self._get_is_comment()
+    # ---------
+
+    def _get_content_from_parent(self):
+        if not self.is_comment:
+            parent_id = self.reply_to_comment
+            return str(parent_id.content[:30] + '...')
+
+    @property
+    def content_from_parent(self):
+        """ """
+        return self._get_content_from_parent()
+    # ==========================================================================
 
     class Meta:
         managed = False

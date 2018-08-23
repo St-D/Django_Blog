@@ -1,5 +1,6 @@
 {% extends 'blog_app/base.html' %}
 {% load staticfiles %}
+{% load recursion_of_comments %}
 
 {% block css %}{{block.super}}
     <style>
@@ -14,7 +15,7 @@
         <div class="row">
             <div class="col-xs-12 single-content">
                 <p class="meta">
-                    <a class="" href="category.html">{{ article_by_id.profile.nick }}</a>
+                    <a class="" href="category.html">{{ article_by_id.user.username }}</a>
                     <i class="link-spacer"></i>
                     <i class="fa fa-bookmark"></i> {{ article_by_id.create|timesince }}
                 </p>
@@ -26,6 +27,30 @@
             </div><!-- main-content/col -->
         </div> <!--/row -->
 
+        {%  block form_for_coment %}
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+
+{#                {% for field in form %}#}
+{#                    <div class="form-group">#}
+{#                    <p>#}
+{#                    <label>{{ field.label }}</label><br>#}
+{#                    {{ field }}#}
+{#                    {{ field.errors }}#}
+{#                    </p>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+                    {{ form.as_p }}
+
+                <div class="form-group">
+{#                    <input class="btn btn-default"  type="submit" value="publish comment">#}
+                    <input type="submit">
+                </div>
+            </form>
+        </div>
+        {% endblock %}
+
     {% block comment %}
     {% if comments %}
         <div class="container bootstrap snippet">
@@ -34,54 +59,64 @@
 		            <div class="blog-comment">
 				        <h3>Comments({{ count_comment }})</h3>
                         <hr/>
+                    	<ul class="comments">
+
                         {% for com in comments %}
-				        <ul class="comments">
 				            <li class="clearfix">
-				                    <img src="{{MEDIA_URL}}{{ com.who_comment.profile.avatar_image.url }}" class="avatar" alt="">
+                                <img src="{{MEDIA_URL}}{{ com.who_comment.profile.avatar_image.url }}" class="avatar" alt="">
 				                <div class="post-comments">
 				                    <p class="meta">{{ com.create | date:"d M Y" }}
                                     <a href="/articles_by_user/{{ com.who_comment.id }}">{{ com.who_comment.username }}</a>
                                         says :<i class="pull-right">
                                     <a href="#"><small>Reply</small></a></i>
                                     </p>
-
-				                    <p>
-				                    {{ com.content }}
-                                        {{ com.reply_to_comment }}
-				                    </p>
+				                    <p>{{ com.content }}</p>
 				                </div>
 
-                                {% if com.reply_to_comment %}
-				                <ul class="comments">
-				                    <li class="clearfix">
-				                        <img src="{{ path_to_avatar }}" class="avatar" alt="">
-				                        <div class="post-comments">
-				                            <p class="meta">Dec 20, 2014
-                                            <a href="#">JohnDoe</a> says : <i class="pull-right">
-                                            <a href="#"><small>Reply</small></a></i>
-                                            </p>
+                                {% with article_by_id|get_discus_for_comment:com.id as discus %}
+                                    {% if discus %}
+                                        {% for d in discus %}
+                                            <ul class="comments">
+				                                <li class="clearfix">
+				                                    <img src="{{MEDIA_URL}}{{ d.who_comment.profile.avatar_image.url }}" class="avatar" alt="">
+				                                    <div class="post-comments">
+				                                        <p class="meta">{{ d.create | date:"d M Y" }}
+                                                            <a href="/articles_by_user/{{ d.who_comment.id }}">{{ d.who_comment.username }}</a>
+                                                            says : <i class="pull-right">
+                                                            <a href="#"><small>Reply</small></a></i>
+                                                        </p>
+                                                        <h6><i>{{ d.content_from_parent }}</i></h6>
+			                                            <p>{{ d.content }}</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
 
-				                            <p>
-				                            {{ comment_to_comment }}
-				                            </p>
-				                        </div>
-				                    </li>
-				                </ul>
-                                {% endif %}
 				            </li>
-				        </ul>
                         {% endfor %}
+
+                        </ul>
 			        </div>
 		        </div>
 	        </div>
         </div>
-    {% endif %}
+    {% else %}
 
-    {% endblock %}
+        <div class="container">
+            <h3>
+                <i class="fa fa-comments-o" aria-hidden="true"></i>
+                ... no comments for this article yet<br>
+            </h3>
+        </div>
+
+    {% endif %}
+    {% endblock comment%}
 
 
     </main> <!-- /container -->
-{% endblock %}
+{% endblock content %}
 
 {% block footer %}
     <footer class="single">

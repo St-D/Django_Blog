@@ -44,7 +44,7 @@
                                 <p>{{ article.content|truncatewords:25}}</p>
                                 <p class="meta">
 
-{#                                    NoReverseMatch if use {% url 'articles_by_user' user_pk=article.user.id %} #}
+{#                                    `NoReverseMatch` if use {% url 'articles_by_user' user_pk=article.user.id %} #}
 {#                                    !!! maybe need define property to model !!! {{ article.user.id }} #}
 
 {#                                    <a href="{% url 'articles_by_user' user_pk=article.user.id %}">{{ article.user.username }}</a>#}
@@ -52,6 +52,17 @@
                                     <i class="link-spacer"></i>
                                     <i class="fa fa-bookmark"></i>
                                     {{ article.create|timesince }}
+                                    <i class="link-spacer"></i>
+
+                                    {% with article.count_comment as art_count%}
+                                        {% if art_count %}
+                                            <i class="fa fa-comments" aria-hidden="true"></i>
+                                            {{ art_count }} comments
+                                        {% else %}
+                                            <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                            no comments yet
+                                        {% endif %}
+                                    {% endwith %}
                                 </p>
                             </div>
                             <div class=" col-2  no-gutter">

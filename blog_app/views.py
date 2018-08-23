@@ -1,4 +1,4 @@
-# from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 # from django.template import RequestContext, loader
 # from django.template.response import TemplateResponse
 # from django.contrib.auth.forms import UserCreationForm
@@ -14,7 +14,7 @@ from django.contrib import messages
 from .models import Article, Subscribe, Comment
 from django.contrib.auth.models import User
 
-from .forms import ArticleForm, RegisterForm
+from .forms import ArticleForm, RegisterForm, CommentForm
 
 # return HttpResponseRedirect(request.META.get('HTTP_REFERER')) //back page
 # request.resolver_match.url_name // current url
@@ -52,26 +52,55 @@ def article(request, id):
     """render one article by id"""
 
     article_by_id = get_object_or_404(Article.objects, pk=id)
-    page_title = article_by_id.theme
-    # mail_address = 'mail_to_admin@mail.com'
+    page_title = str(article_by_id.theme).capitalize()
     img_background = random_background()
 
-    comments = Comment.objects.filter(article=id).order_by('create').filter(reply_to_comment__isnull=True)
-    count_comment = comments.count()
+    all_comments_by_article_obj = Comment.objects.filter(article=id)#.order_by('create')
+    comments = all_comments_by_article_obj.filter(reply_to_comment__isnull=True)
+    count_comment = all_comments_by_article_obj.count()
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            response = form.save(commit=False)
+            response.user = request.user
+            # response.save()
+            print('-==@@@@@@', form.cleaned_data)
+
+        # return redirect('all_my_articles')
+    else:
+        form = CommentForm()
+
+    print('-==^^^^^^^', form)
 
     return render(request=request, template_name='article.html', context=locals())
+                  # context={
+                  #     'page_title': page_title,
+                  #     'img_background': img_background,
+                  #     'comments': comments,
+                  #     'count_comment': count_comment,
+                  #     # 'form': form,
+                  #          })
+
+
+@login_required
+def new_comment(request, article_id, comment_id):
+    print(article_id)
+    print(comment_id)
+    current_loged_user = request.user.id
+    current_loged_user = request.user.username
+    print(current_loged_user)
+    pass
 
 
 def articles_by_user(request, user_pk):
     """sorts and render all articles of the same user"""
 
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~', user_pk)
-
     query_user = User.objects.get(pk=user_pk)
     page_title = 'All articles by ' + str(query_user.username)
     img_background = random_background()
 
-    article_by_user = Article.objects.all().filter(user=user_pk)
+    article_by_user = Article.objects.all().filter(user=user_pk).order_by('create')
 
     # return render(request=request, template_name='articles_by_user.html', context=locals())
     return render(request=request, template_name='articles_by_user.html',
