@@ -13,3 +13,4 @@ INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('auth', '0008
 INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('blog_app', '0001_initial', '2018-08-16 20:14:09.849615');
 INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('sessions', '0001_initial', '2018-08-16 20:14:09.913015');
 INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('blog_app', '0002_userprofile', '2018-08-16 23:18:51.956198');
+INSERT INTO blog_db.django_migrations (app, name, applied) VALUES ('blog_app', '0003_auto_20180821_0223', '2018-08-20 23:24:20.965027');

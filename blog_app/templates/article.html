@@ -9,6 +9,51 @@
     <link href="{% static 'style/comment.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block js_script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+        console.log('ready to jQuery !');
+        $("#show-or-hide-form").hide("slow");
+
+        });
+
+        function show_comments_form(id_com)
+            {
+{#                console.log(id_com);#}
+
+{#                /*#}
+{#                set [@value] from <form><input type="hidden" name="id_to_comment" value="" id="id_to_comment" /></form>#}
+{#                value = id_com (it`s comment id)#}
+{#                 */#}
+
+{#                var val_hidden =  #}
+                    $('input#id_to_comment').attr('value', id_com);
+{#                console.log(val_hidden);#}
+
+
+{#                /* show hidden form */#}
+                var id_selector = $("#show-or-hide-form");
+                if (id_selector.is(":hidden"))
+                    {
+                        id_selector.show("slow");
+                    }
+
+                return false;
+            }
+
+        /* animate up-to comment form: */
+        $(function(){
+        $("a[href^='#']").click(function(){
+                var _href = $(this).attr("href");
+                $("html, body").animate({scrollTop: $(_href).offset().top+"px"});
+                return false;
+        });
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <header class="hero-image" role="banner"></header>
     <main class="container">
@@ -23,33 +68,17 @@
                 <p class="subtitle"></p>
                 <p>{{ article_by_id.content }}</p>
                 <p class="pullquote"></p>
-{#                <p>PAGE CONTENT</p>#}
+                <div class="secondary-info">
+                        <a class="btn btn-default" href="#show-or-hide-form" onclick="return show_comments_form()">
+                        <i class="fa fa-comment"></i>
+                        &nbsp;<strong>add comment</strong>
+                        </a>
+                </div>
             </div><!-- main-content/col -->
         </div> <!--/row -->
 
-        {%  block form_for_coment %}
-        <div class="container">
-            <form method="post">
-                {% csrf_token %}
-
-{#                {% for field in form %}#}
-{#                    <div class="form-group">#}
-{#                    <p>#}
-{#                    <label>{{ field.label }}</label><br>#}
-{#                    {{ field }}#}
-{#                    {{ field.errors }}#}
-{#                    </p>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-                    {{ form.as_p }}
-
-                <div class="form-group">
-{#                    <input class="btn btn-default"  type="submit" value="publish comment">#}
-                    <input type="submit">
-                </div>
-            </form>
-        </div>
-        {% endblock %}
+    {#depending on authorization: #}
+    {% include 'include_html/comment_form.html'%}
 
     {% block comment %}
     {% if comments %}
@@ -57,7 +86,7 @@
             <div class="row">
 		        <div class="col-md-12">
 		            <div class="blog-comment">
-				        <h3>Comments({{ count_comment }})</h3>
+				        <strong><p>Comments({{ count_comment }})</p></strong>
                         <hr/>
                     	<ul class="comments">
 
@@ -68,7 +97,7 @@
 				                    <p class="meta">{{ com.create | date:"d M Y" }}
                                     <a href="/articles_by_user/{{ com.who_comment.id }}">{{ com.who_comment.username }}</a>
                                         says :<i class="pull-right">
-                                    <a href="#"><small>Reply</small></a></i>
+                                    <a href="#show-or-hide-form" onclick="return show_comments_form({{com.id}})"><small>Reply</small></a></i>
                                     </p>
 				                    <p>{{ com.content }}</p>
 				                </div>
@@ -83,7 +112,7 @@
 				                                        <p class="meta">{{ d.create | date:"d M Y" }}
                                                             <a href="/articles_by_user/{{ d.who_comment.id }}">{{ d.who_comment.username }}</a>
                                                             says : <i class="pull-right">
-                                                            <a href="#"><small>Reply</small></a></i>
+                                                            <a href="#show-or-hide-form" onclick="return show_comments_form({{ d.id }})"><small>Reply</small></a></i>
                                                         </p>
                                                         <h6><i>{{ d.content_from_parent }}</i></h6>
 			                                            <p>{{ d.content }}</p>

@@ -1,0 +1,31 @@
+        {%  block form_for_coment %}
+            {% if user.is_authenticated %}
+                {% include "include_html/info_messages.html" %}
+                <div class="container" id="show-or-hide-form">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id_to_comment" value="" id="id_to_comment" />
+
+                        {% for field in form %}
+                            <div class="form-group">
+                            <p>
+                            <label>{{ field.label }}</label><br>
+                            {{ field }}
+                            {{ field.errors }}
+                            </p>
+                            </div>
+                        {% endfor %}
+{#                            {{ form.as_p }}#}
+
+                        <div class="form-group">
+                            <input class="btn btn-default"  type="submit" value="publish comment">
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <strong>
+                <p><a href="{% url 'register' %}">... to add comments please register</a></p>
+                <p><a href="{% url 'login' %}">Already registered? Login</a></p>
+                </strong>
+            {% endif %}
+        {% endblock %}

@@ -9,8 +9,8 @@ register = template.Library()
 @register.filter
 def get_discus_for_comment(id_article, id_comment):
     """ recursive search id comments """
-    discus_id_list = list()  # result id list - for easier calculations
-    discus_obj_list = list() # list with Comment obj
+    discus_id_list = list()     # result id list - for easier calculations
+    discus_obj_list = list()    # list with Comment obj
 
     all_comments_by_article_obj = Comment.objects.filter(article=id_article).order_by('create')
     adjacent_list = list(zip(

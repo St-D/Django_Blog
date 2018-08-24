@@ -2,7 +2,7 @@ INSERT INTO blog_db.article (user_id, content, `create`, theme) VALUES (4, 'Is t
 All about the girl who came to stay? 
 She''s the kind of girl 
 you want so much it make you sorry 
-Still you don''t regret a single day', '2018-05-05 21:31:19', 'new song theme');
+Still you don''t regret a single day', '2008-05-05 21:31:19', 'new song theme');
 INSERT INTO blog_db.article (user_id, content, `create`, theme) VALUES (4, '... Yesterday, all my troubles seemed so far away
 Now it look as though they''re here to stay
 Oh, I believe in yesterday', '2018-08-13 21:35:03', 'musings');
@@ -108,3 +108,4 @@ For people and things that went before
 I know I''ll often stop and think about them 
 In my life I love you more ', '2017-10-01 21:53:59', 'I remember');
 INSERT INTO blog_db.article (user_id, content, `create`, theme) VALUES (8, 'im so happy , because...', '2016-11-27 10:53:36', 'mmmm');
+INSERT INTO blog_db.article (user_id, content, `create`, theme) VALUES (3, '=)', '2018-08-19 23:00:23', 'theme by admin');

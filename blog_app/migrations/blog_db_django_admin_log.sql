@@ -20,3 +20,9 @@ INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, actio
 INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 21:32:30.868687', '15', 'rrrr', 3, '', 4, 3);
 INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 21:32:30.871687', '12', 'tytutut', 3, '', 4, 3);
 INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 21:32:30.874687', '10', 'user_test', 3, '', 4, 3);
+INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 23:05:53.861182', '10', 'rtrt', 3, '', 4, 3);
+INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 23:05:53.864182', '11', 'rtytry', 3, '', 4, 3);
+INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 23:05:53.866182', '9', 'TEST_user_reg_form', 3, '', 4, 3);
+INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-19 23:06:49.272158', '11', '11', 3, '', 10, 3);
+INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-20 16:01:37.388738', '9', '12', 1, '[{"added": {}}]', 4, 3);
+INSERT INTO blog_db.django_admin_log (action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) VALUES ('2018-08-20 16:01:50.517979', '9', '12', 3, '', 4, 3);

@@ -18,6 +18,7 @@ from .forms import ArticleForm, RegisterForm, CommentForm
 
 # return HttpResponseRedirect(request.META.get('HTTP_REFERER')) //back page
 # request.resolver_match.url_name // current url
+# @require_http_methods(["POST"])
 
 
 def random_background():
@@ -60,44 +61,36 @@ def article(request, id):
     count_comment = all_comments_by_article_obj.count()
 
     if request.method == "POST":
+
         form = CommentForm(request.POST)
         if form.is_valid():
             response = form.save(commit=False)
-            response.user = request.user
-            # response.save()
-            print('-==@@@@@@', form.cleaned_data)
+            response.who_comment = request.user
+            response.article = article_by_id
 
-        # return redirect('all_my_articles')
+            get_value_from_hidden_field = request.POST.get('id_to_comment')
+            if get_value_from_hidden_field:
+                response.reply_to_comment = Comment(id=int(get_value_from_hidden_field))
+
+            response.save()
+
+            messages.info(request, '    comment added successfully !')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            messages.error(request, '    . . . unable to add comment')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+
     else:
         form = CommentForm()
 
-    print('-==^^^^^^^', form)
-
     return render(request=request, template_name='article.html', context=locals())
-                  # context={
-                  #     'page_title': page_title,
-                  #     'img_background': img_background,
-                  #     'comments': comments,
-                  #     'count_comment': count_comment,
-                  #     # 'form': form,
-                  #          })
-
-
-@login_required
-def new_comment(request, article_id, comment_id):
-    print(article_id)
-    print(comment_id)
-    current_loged_user = request.user.id
-    current_loged_user = request.user.username
-    print(current_loged_user)
-    pass
 
 
 def articles_by_user(request, user_pk):
     """sorts and render all articles of the same user"""
 
     query_user = User.objects.get(pk=user_pk)
-    page_title = 'All articles by ' + str(query_user.username)
+    page_title = 'All articles by ' + str(query_user.username).capitalize()
     img_background = random_background()
 
     article_by_user = Article.objects.all().filter(user=user_pk).order_by('create')
@@ -113,7 +106,7 @@ def articles_by_user(request, user_pk):
 @transaction.atomic
 @login_required
 def add_to_favorites(request, user_pk):
-    """add user to MyFavorites list. Return info-message on Page. """
+    """add user to MyFavorites list. Return info-message on articles_by_user.html"""
 
     current_loged_user = request.user.id
     return_path = request.META.get('HTTP_REFERER', '/')

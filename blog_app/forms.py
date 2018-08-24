@@ -34,19 +34,18 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2', 'avatar_image']
 
 
-class CommentForm(forms.Form):
+class CommentForm(forms.ModelForm):
 
-    # def __init__(self, *args, **kwargs):
-    #     super(CommentForm, self).__init__(*args, **kwargs)
-    #     for visible in self.visible_fields():
-    #         visible.field.widget.attrs['class'] = 'form-control'
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = Comment
         fields = ["content"]
-        # fields = '__all__'
-        # widgets = {'user': forms.HiddenInput(),
-        #            'article_id': forms.HiddenInput(),
-        #            'who_comment': forms.HiddenInput(),
-        #            'reply_to_comment': forms.HiddenInput(),
-        #            }
+        widgets = {'user': forms.HiddenInput(),
+                   'article_id': forms.HiddenInput(),
+                   'who_comment': forms.HiddenInput(),
+                   'reply_to_comment': forms.HiddenInput(),
+                   }
