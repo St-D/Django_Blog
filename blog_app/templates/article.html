@@ -91,13 +91,13 @@
                     	<ul class="comments">
 
                         {% for com in comments %}
-				            <li class="clearfix">
+				            <li class="">
                                 <img src="{{MEDIA_URL}}{{ com.who_comment.profile.avatar_image.url }}" class="avatar" alt="">
 				                <div class="post-comments">
 				                    <p class="meta">{{ com.create | date:"d M Y" }}
-                                    <a href="/articles_by_user/{{ com.who_comment.id }}">{{ com.who_comment.username }}</a>
+                                    <a href="/articles_by_user/{{ com.who_comment.id }}" class="a-for-comment">{{ com.who_comment.username }}</a>
                                         says :<i class="pull-right">
-                                    <a href="#show-or-hide-form" onclick="return show_comments_form({{com.id}})"><small>Reply</small></a></i>
+                                    <a href="#show-or-hide-form" onclick="return show_comments_form({{com.id}})" class="a-for-comment"><small>Reply</small></a></i>
                                     </p>
 				                    <p>{{ com.content }}</p>
 				                </div>
@@ -106,13 +106,13 @@
                                     {% if discus %}
                                         {% for d in discus %}
                                             <ul class="comments">
-				                                <li class="clearfix">
+				                                <li class="">
 				                                    <img src="{{MEDIA_URL}}{{ d.who_comment.profile.avatar_image.url }}" class="avatar" alt="">
 				                                    <div class="post-comments">
 				                                        <p class="meta">{{ d.create | date:"d M Y" }}
-                                                            <a href="/articles_by_user/{{ d.who_comment.id }}">{{ d.who_comment.username }}</a>
+                                                            <a href="/articles_by_user/{{ d.who_comment.id }}" class="a-for-comment">{{ d.who_comment.username }}</a>
                                                             says : <i class="pull-right">
-                                                            <a href="#show-or-hide-form" onclick="return show_comments_form({{ d.id }})"><small>Reply</small></a></i>
+                                                            <a href="#show-or-hide-form" onclick="return show_comments_form({{ d.id }})" class="a-for-comment"><small>Reply</small></a></i>
                                                         </p>
                                                         <h6><i>{{ d.content_from_parent }}</i></h6>
 			                                            <p>{{ d.content }}</p>

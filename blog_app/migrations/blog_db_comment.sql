@@ -25,3 +25,4 @@ INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_t
 INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (1, 'ok!', '2018-08-24 22:09:14', 5, 56);
 INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (1, 'maybe it''s my best song.', '2010-08-24 22:25:41', 4, null);
 INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (9, 'concert was perfect ', '2018-08-24 22:29:35', 5, null);
+INSERT INTO blog_db.comment (article_id, content, `create`, who_comment, reply_to_comment_id) VALUES (14, ': ))', '2018-08-26 22:08:31', 8, 16);

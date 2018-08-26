@@ -16,6 +16,8 @@ from django.contrib.auth.models import User
 
 from .forms import ArticleForm, RegisterForm, CommentForm
 
+from .tasks import resize_avatar
+
 # return HttpResponseRedirect(request.META.get('HTTP_REFERER')) //back page
 # request.resolver_match.url_name // current url
 # @require_http_methods(["POST"])
@@ -34,7 +36,11 @@ def index(request):
 
     page_title = 'Blog Main Page'
     img_background = random_background()
-    ten_random_articles = Article.objects.order_by('?')[:10]
+
+    if request.user.is_authenticated():
+        ten_random_articles = Article.objects.order_by('?').exclude(user=request.user)[:10]
+    else:
+        ten_random_articles = Article.objects.order_by('?')[:10]
 
     return render(request=request, template_name='index.html', context=locals())
 
@@ -83,6 +89,7 @@ def article(request, id):
     else:
         form = CommentForm()
 
+    # print('5555', ret)
     return render(request=request, template_name='article.html', context=locals())
 
 
@@ -186,17 +193,23 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
+            # print(form.cleaned_data)
             user = form.save()
             user.refresh_from_db()
             user.profile.avatar_image = form.cleaned_data.get('avatar_image')
-            user.save()
+            user.save()     # run post_save_signal models.py / Profile.create_user
 
             # login now:
             username = form.cleaned_data.get('username')
             my_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=my_password)
-            login(request, user)
+            user_name_pass = authenticate(username=username, password=my_password)
+            login(request, user_name_pass)
+
+            # run avatar resize asynchronously:
+            # print(user.profile.avatar_image.path)   # absolute path
+            user.refresh_from_db()
+            resize_avatar.delay(str(user.profile.avatar_image), int(user.profile.id))
+
             return redirect('index')
 
     else:

@@ -148,4 +148,5 @@ class Profile(models.Model):
         if created:
             Profile.objects.create(user=instance)
         instance.profile.save()
+        instance.profile.refresh_from_db()
     # ==========================================================================

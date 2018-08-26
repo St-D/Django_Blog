@@ -73,6 +73,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blog_project.wsgi.application'
 
+# AUTH_USER_MODEL = 'auth.User'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -95,7 +97,7 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 #     }
 # }
 
-DATABASES = CONNECT_DICT
+DATABASES = CONNECT_DICT  # mySQL5
 
 
 # Password validation

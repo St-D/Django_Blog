@@ -8,7 +8,7 @@ hr {
     border: 0;
     border-top: 1px solid #FFFFFF;
 }
-a {
+a.a-for-comment {
     color: #82b440;
     text-decoration: none;
 }

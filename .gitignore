@@ -8,3 +8,5 @@ Thumbs.db
 *.sqlite3
 i_think
 *.pyc
+rabbitmq-server-3.7.7.exe
+otp_win64_21.0.1.exe
