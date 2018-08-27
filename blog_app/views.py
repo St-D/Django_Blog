@@ -63,7 +63,7 @@ def article(request, id):
     img_background = random_background()
 
     all_comments_by_article_obj = Comment.objects.filter(article=id)#.order_by('create')
-    comments = all_comments_by_article_obj.filter(reply_to_comment__isnull=True)
+    comments = all_comments_by_article_obj.filter(reply_to_comment__isnull=True)  # atricles comment without comments
     count_comment = all_comments_by_article_obj.count()
 
     if request.method == "POST":
